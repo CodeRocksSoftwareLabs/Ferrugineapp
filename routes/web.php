@@ -24,5 +24,21 @@ Route::get('/teste-de-email', function () {
     });
 });
 
-Route::get('/cliente', 'ClienteController@create');
-Route::get('/cliente/{id}', 'ClienteController@delete');
+Route::prefix('/clientes')->group(function () {
+    Route::get('/listar', 'ClienteController@listar')->name('clientes.listar');
+
+    Route::get('/novo', 'ClienteController@novo')->name('clientes.novo');
+    Route::get('/{id}', 'ClienteController@carregar')->name('clientes.carregar');
+
+    Route::get('/cliente', 'ClienteController@create');
+    Route::get('/cliente/{id}', 'ClienteController@delete');
+});
+
+Route::prefix('/agendamentos')->group(function () {
+    Route::get('/listar', 'AgendamentoController@listar')->name('agendamentos.listar');
+});
+
+
+Route::prefix('/dashboard')->group(function () {});
+Route::prefix('/notificacoes')->group(function () {});
+Route::prefix('/perfil')->group(function () {});

@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Ferrugineapp.iml" filepath="$PROJECT_DIR$/.idea/Ferrugineapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../central-de-tutoria/mood-in/.idea/mood-in.iml" filepath="$PROJECT_DIR$/../central-de-tutoria/mood-in/.idea/mood-in.iml" />
     </modules>
   </component>
 </project>
