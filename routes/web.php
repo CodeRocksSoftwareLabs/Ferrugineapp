@@ -23,3 +23,6 @@ Route::get('/teste-de-email', function () {
         $message->to('victorfrossard00@gmail.com', 'Victor Frossard');
     });
 });
+
+Route::get('/cliente', 'ClienteController@create');
+Route::get('/cliente/{id}', 'ClienteController@delete');
