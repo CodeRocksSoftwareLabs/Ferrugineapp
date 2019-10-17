@@ -11,9 +11,9 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/login', 'UsuarioController@login')->name('login');
+Route::post('/login', 'UsuarioController@authenticate')->name('login.authenticate');
+Route::get('/logout', 'UsuarioController@logout')->name('logout');
 
 
 Route::get('/teste-de-email', function () {
@@ -24,21 +24,47 @@ Route::get('/teste-de-email', function () {
     });
 });
 
-Route::prefix('/clientes')->group(function () {
-    Route::get('/listar', 'ClienteController@listar')->name('clientes.listar');
+Route::group(['middleware' => 'autenticacao'], function () {
 
-    Route::get('/novo', 'ClienteController@novo')->name('clientes.novo');
-    Route::get('/{id}', 'ClienteController@carregar')->name('clientes.carregar');
+    Route::prefix('/clientes')->group(function () {
+        Route::get('/listar', 'ClienteController@listar')->name('clientes.listar');
 
-    Route::get('/cliente', 'ClienteController@create');
-    Route::get('/cliente/{id}', 'ClienteController@delete');
+        Route::get('/novo', 'ClienteController@novo')->name('clientes.novo');
+        Route::get('/{id}', 'ClienteController@carregar')->name('clientes.carregar');
+
+        Route::get('/cliente', 'ClienteController@create');
+        Route::get('/cliente/{id}', 'ClienteController@delete');
+    });
+
+    Route::prefix('/agendamentos')->group(function () {
+        Route::get('/listar', 'AgendamentoController@listar')->name('agendamentos.listar');
+    });
+
+
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/', 'DashboardController@dashboard')->name('dashboard');
+    });
+
+    Route::prefix('/notificacoes')->group(function () {
+        Route::get('/', 'NotificacaoController@notificacoes')->name('notificacoes.listar');
+    });
+
+    Route::prefix('/perfil')->group(function () {
+        Route::get('/', 'UsuarioController@perfil')->name('perfil');
+    });
+
+    Route::group(['middleware' => 'admin'], function () {
+
+        Route::prefix('/usuarios')->group(function () {
+            Route::get('/', 'UsuarioController@usuariosList')->name('usuarios.listar');
+            Route::get('/novo', 'UsuarioController@newUsuario')->name('usuarios.novo');
+            Route::get('/visualizar/{id}', 'UsuarioController@viewUsuario')->name('usuarios.visualizar');
+            Route::post('/criar', 'UsuarioController@createUsuario')->name('usuarios.criar');
+        });
+
+        Route::prefix('/relatorios')->group(function () {
+            Route::get('/', 'UsuarioController@usuariosList')->name('relatorios.listar');
+        });
+    });
+
 });
-
-Route::prefix('/agendamentos')->group(function () {
-    Route::get('/listar', 'AgendamentoController@listar')->name('agendamentos.listar');
-});
-
-
-Route::prefix('/dashboard')->group(function () {});
-Route::prefix('/notificacoes')->group(function () {});
-Route::prefix('/perfil')->group(function () {});

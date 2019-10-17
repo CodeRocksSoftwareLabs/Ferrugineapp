@@ -54,7 +54,7 @@
                 <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder=""></textarea>
             </div>
         </div>
-        <a href="#" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</a>
+        <a href="{{ route('usuarios.novo') }}" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</a>
     </form>
 </div>
 
