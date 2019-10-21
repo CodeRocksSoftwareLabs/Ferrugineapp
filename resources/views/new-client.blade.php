@@ -7,23 +7,34 @@
 </header>
 <div class="app-main app-main--grey">
     <h3 class="title-form-label mt-3">Dados</h3>
-    <form method="post" action="">
+
+    <form method="POST" action="@if(empty($cliente)){{ route('clientes.criar') }}@else{{ route('clientes.alterar', $cliente->id) }}@endif">
+        @csrf
+
+        @if(!empty($mensagem))
+            <div class="alert alert-danger" role="alert" style="">{{ $mensagem }}</div>
+        @endif
+
         <div class="section-full">
             <div class="form-group">
                 <label for="">Nome</label>
-                <input class="form-control" type="text" placeholder="" required="required">
+                <input class="form-control" name="nome" type="text" placeholder="" required="required" value="@if(!empty($cliente->ds_nome)){{ $cliente->ds_nome }}@endif">
             </div>
             <div class="form-group">
                 <label for="">E-mail</label>
-                <input class="form-control" type="email" placeholder="">
+                <input class="form-control" name="email" type="email" placeholder="" value="@if(!empty($cliente->ds_email)){{ $cliente->ds_email }}@endif">
             </div>
             <div class="form-group">
                 <label for="">Telefone</label>
-                <input class="form-control telefone" type="text" placeholder="" required="required">
+                <input class="form-control telefone" name="telefone" type="text" placeholder="" required="required" value="@if(!empty($cliente->ds_telefone)){{ $cliente->ds_telefone }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Telefone 2</label>
+                <input class="form-control telefone" name="telefone2" type="text" placeholder="" value="@if(!empty($cliente->ds_telefone2)){{ $cliente->ds_telefone2 }}@endif">
             </div>
             <div class="form-group">
                 <label for="">CEP</label>
-                <input class="form-control cep" type="text" placeholder="">
+                <input class="form-control cep" name="cep" type="text" placeholder="" value="@if(!empty($cliente->ds_cep)){{ $cliente->ds_cep }}@endif">
             </div>
             <div class="form-group">
                 <label for="">UF</label>
@@ -43,18 +54,30 @@
             </div>
             <div class="form-group">
                 <label for="">Cidade</label>
-                <input class="form-control" type="text" placeholder="">
+                <input class="form-control" name="cidade" type="text" placeholder="" value="@if(!empty($cliente->ds_cidade)){{ $cliente->ds_cidade }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Bairro</label>
+                <input class="form-control" name="bairro" type="text" placeholder="" value="@if(!empty($cliente->ds_bairro)){{ $cliente->ds_bairro }}@endif">
             </div>
             <div class="form-group">
                 <label for="">Endereço</label>
-                <input class="form-control" type="text" placeholder="">
+                <input class="form-control" name="endereco" type="text" placeholder="" value="@if(!empty($cliente->ds_endereco)){{ $cliente->ds_endereco }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Número</label>
+                <input class="form-control" name="numero" type="text" placeholder="" value="@if(!empty($cliente->ds_numero)){{ $cliente->ds_numero }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Complemento</label>
+                <input class="form-control" name="complemento" type="text" placeholder="" value="@if(!empty($cliente->ds_complemento)){{ $cliente->ds_complemento }}@endif">
             </div>
             <div class="form-group">
                 <label for="">Observação</label>
-                <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder=""></textarea>
+                <textarea name="obs" id="" cols="30" rows="5" class="form-control" placeholder="">@if(!empty($cliente->ds_obs)){{ $cliente->ds_obs }}@endif</textarea>
             </div>
         </div>
-        <a href="{{ route('usuarios.novo') }}" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</a>
+        <button type="submit" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</button>
     </form>
 </div>
 

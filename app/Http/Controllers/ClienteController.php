@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Estado;
+use Session;
 
 class ClienteController extends Controller
 {
@@ -15,7 +16,7 @@ class ClienteController extends Controller
         $this->cliente = $cliente;
     }
 
-    public function listar()
+    public function listar(bool $mensagem = false)
     {
         $clientes = $this->cliente->orderBy('ds_nome', 'asc')->get();
 
@@ -25,7 +26,7 @@ class ClienteController extends Controller
             $lista_clientes[$cliente->ds_nome[0]][] = $cliente;
         }
 
-        return view('client-list', compact('lista_clientes'));
+        return view('client-list', compact('lista_clientes', 'mensagem'));
     }
 
     public function novo()
@@ -36,54 +37,67 @@ class ClienteController extends Controller
         return view('new-client', compact('estados'));
     }
 
-    public function carregar($id)
+    public function criar(Request $request)
+    {
+        $cliente = $this->preencherCliente(new Cliente(), $request);
+        $cliente->save();
+
+        return $this->carregar($cliente->id, false);
+    }
+
+    public function alterar(int $id, Request $request)
+    {
+        $cliente = $this->cliente->find($id);
+
+        $cliente = $this->preencherCliente($cliente, $request);
+        $cliente->save();
+
+        return $this->carregar($cliente->id, true);
+    }
+
+    public function carregar(int $id, bool $mensagem = false)
     {
         $estado = new Estado();
         $estados = $estado->orderBy('ds_estado', 'asc')->get();
 
         $cliente = $this->cliente->find($id);
 
-        return view('single-client', compact(['estados', 'cliente']));
+        return view('single-client', compact(['estados', 'cliente', 'mensagem']));
     }
 
-    public function create()
+    public function editar(int $id)
     {
-        $this->cliente->ds_nome = 'Ruth Siqueira';
-        $this->cliente->ds_email = 'ruth@coderocks.com.br';
-        $this->cliente->ds_telefone = '+55 (27) 9 9883-9587';
-        $this->cliente->save();
+        $estado = new Estado();
+        $estados = $estado->orderBy('ds_estado', 'asc')->get();
 
-        $this->cliente = new Cliente();
+        $cliente = $this->cliente->find($id);
 
-        $this->cliente->ds_nome = 'Jussara Siqueira da Silva';
-        $this->cliente->ds_email = 'jussara@coderocks.com.br';
-        $this->cliente->ds_telefone = '+55 (27) 9 9988-0666';
-        $this->cliente->save();
-
-        $this->cliente = new Cliente();
-
-        $this->cliente->ds_nome = 'Daniel Danied';
-        $this->cliente->ds_email = 'daniel@ferrugine.com.br';
-        $this->cliente->ds_telefone = '+55 (27) 9 9988-0666';
-        $this->cliente->save();
-
-        $this->cliente = new Cliente();
-
-        $this->cliente->ds_nome = 'José Roberto';
-        $this->cliente->ds_email = 'jose@ferrugine.com.br';
-        $this->cliente->ds_telefone = '+55 (27) 9 9988-0777';
-        $this->cliente->save();
-
-        $this->cliente = new Cliente();
-
-        $this->cliente->ds_nome = 'Thiago Ortiz';
-        $this->cliente->ds_email = 'thiago@picpay.com.br';
-        $this->cliente->ds_telefone = '+55 (27) 9 9322-5544';
-        $this->cliente->save();
+        return view('new-client', compact('estados', 'cliente'));
     }
 
-    public function delete($id)
+    public function delete(int $id)
     {
         $this->cliente->where('id', $id)->delete();
+
+        return $this->listar(true);
+    }
+
+    private function preencherCliente(Cliente $cliente, Request $request)
+    {
+        $cliente->ds_nome = $request->nome;
+        $cliente->ds_email = $request->email;
+        $cliente->ds_telefone = $request->telefone;
+        $cliente->ds_telefone2 = $request->telefone2;
+        $cliente->ds_cep = $request->cep;
+        $cliente->estado_id = intval($request->estado);
+        $cliente->ds_endereco = $request->endereco;
+        $cliente->ds_numero = $request->numero;
+        $cliente->ds_bairro = $request->bairro;
+        $cliente->ds_cidade = $request->cidade;
+        $cliente->ds_complemento = $request->complemento;
+        $cliente->ds_obs = $request->obs;
+        $cliente->usuario_id = Session::get('usuario')->id;
+
+        return $cliente;
     }
 }

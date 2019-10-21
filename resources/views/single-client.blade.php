@@ -9,7 +9,7 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="#">Editar</a>
+                <a class="dropdown-item" href="{{ route('clientes.editar', $cliente->id) }}">Editar</a>
                 <a class="dropdown-item" href="#">Excluir</a>
             </div>
         </div>
@@ -25,6 +25,11 @@
         </div>
 
         <h3 class="title-form-label mt-4">Dados</h3>
+
+        @if($mensagem)
+            <div class="alert alert-success" role="alert" style="">Cliente salvo com sucesso!</div>
+        @endif
+
         <div class="section-full">
 
             <div class="form-group">
@@ -46,6 +51,14 @@
                 <span class="value-input">{{ $cliente->ds_telefone }}</span>
             </div>
 
+            @if(!empty($cliente->ds_telefone2))
+
+                <div class="form-group">
+                    <label for="">Telefone 2</label>
+                    <span class="value-input">{{ $cliente->ds_telefone2 }}</span>
+                </div>
+
+            @endif
             @if(!empty($cliente->ds_cep))
 
             <div class="form-group">

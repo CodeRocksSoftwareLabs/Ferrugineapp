@@ -10,13 +10,17 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="search_client"><i class="fas fa-search"></i></span>
             </div>
-            <input type="text" class="form-control" placeholder="Pesquisar..." aria-label="Pesquisar..." aria-describedby="search_client">
+            <input type="text" class="form-control" name="pesquisar" placeholder="Pesquisar..." aria-label="Pesquisar..." aria-describedby="search_client">
         </div>
     </div>
 </header>
 
-
 <div class="app-main">
+
+    @if($mensagem)
+    <div class="alert alert-success" role="alert" style="">Cliente excluído com sucesso!</div>
+    @endif
+
     <section class="client-list">
 
         @foreach($lista_clientes as $letra => $clientes)
@@ -27,7 +31,7 @@
 
                 @foreach($clientes as $cliente)
 
-                <a href="{{ route('clientes.carregar', $cliente->id) }}" class="client-list__item">
+                <a href="{{ route('clientes.carregar', $cliente->id) }}" class="client-list__item" data-nome="{{ strtolower($cliente->ds_nome) }}" data-telefone="{{ str_replace(['(', ')', '-', ' '], ['','','',''], $cliente->ds_telefone) }}">
                     <span class="client-list__name">{{ $cliente->ds_nome }}</span>
                     <span class="client-list__phone">{{ $cliente->ds_telefone }}</span>
                 </a>

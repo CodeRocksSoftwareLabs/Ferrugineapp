@@ -30,7 +30,10 @@ Route::group(['middleware' => 'autenticacao'], function () {
         Route::get('/listar', 'ClienteController@listar')->name('clientes.listar');
 
         Route::get('/novo', 'ClienteController@novo')->name('clientes.novo');
+        Route::post('/criar', 'ClienteController@criar')->name('clientes.criar');
         Route::get('/{id}', 'ClienteController@carregar')->name('clientes.carregar');
+        Route::get('/editar/{id}', 'ClienteController@editar')->name('clientes.editar');
+        Route::post('/{id}', 'ClienteController@alterar')->name('clientes.alterar');
 
         Route::get('/cliente', 'ClienteController@create');
         Route::get('/cliente/{id}', 'ClienteController@delete');
