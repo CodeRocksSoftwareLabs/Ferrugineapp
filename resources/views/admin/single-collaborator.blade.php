@@ -2,7 +2,7 @@
 
 <header class="app-header-pages">
     <div class="app-header-pages__main">
-        <h1 class="app-header-title"><a href="{{ route('dashboard') }}" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>Detalhe colaborador</h1>
+        <h1 class="app-header-title"><a href="{{ route('usuarios.listar') }}" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>Detalhe colaborador</h1>
         <div class="dropdown">
             <a class="btn btn-icon-link" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>

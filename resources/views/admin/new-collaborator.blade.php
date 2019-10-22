@@ -36,17 +36,17 @@
                 <label for="loja">Loja</label>
                 <input class="form-control" type="text" id="loja" name="loja" placeholder="">
             </div>
-            <div class="form-group">
+            <div class="form-group ml-4">
                 <input type="checkbox" class="form-check-input" name="admin" id="admin">
                 <label class="form-check-label" for="admin">Usuário administrador?</label>
             </div>
-            <div class="form-group">
+            <div class="form-group ml-4">
                 <input type="checkbox" class="form-check-input" name="senha" id="senha" checked="checked" disabled>
                 <label class="form-check-label" for="senha">Enviar senha por e-mail</label>
             </div>
 
         </div>
-        <a href="{{ route('usuarios.novo') }}" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</a>
+        <button type="submit" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</button>
     </form>
 </div>
 

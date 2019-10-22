@@ -75,7 +75,7 @@ class ClienteController extends Controller
         return view('new-client', compact('estados', 'cliente'));
     }
 
-    public function delete(int $id)
+    public function excluir(int $id)
     {
         $this->cliente->where('id', $id)->delete();
 

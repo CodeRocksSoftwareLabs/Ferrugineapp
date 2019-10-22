@@ -16,6 +16,12 @@
     <a href="javascript:void(0)" class="btn btn-icon-primary menu-bar__button"><i class="fas fa-bars"></i></a>
 </header>
 <div class="app-main app-main--grey">
+
+    @if (session('mensagem'))
+        <br/>
+        <p class="alert alert-success" role="alert" style="">Usuário excluído com sucesso!</p>
+    @endif
+
     <section class="section-default">
         <h3 class="title">Vendedores</h3>
 
@@ -34,8 +40,8 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('usuarios.carregar', ['id' => $usuario->id]) }}">Ver detalhes</a>
-                    <a class="dropdown-item" href="#">Editar</a>
-                    <a class="dropdown-item" href="#">Excluir vendedor</a>
+                    <a class="dropdown-item" href="{{ route('usuarios.editar', ['id' => $usuario->id]) }}">Editar</a>
+                    <a class="dropdown-item" href="{{ route('usuarios.excluir', ['id' => $usuario->id]) }}">Excluir vendedor</a>
                 </div>
             </div>
         </div>

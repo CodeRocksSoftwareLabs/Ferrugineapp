@@ -28,6 +28,11 @@ class UsuarioController extends Controller
 
         $usuario = $this->usuario->where('ds_login', '=', $login)->where('ds_senha', '=', $senha)->first();
 
+        if (!$usuario) {
+            $mensagem = "Usuário ou senha inválidos, por favor, tente novamente.";
+            return view('index', compact('mensagem'));
+        }
+
         return $this->authenticateUser($usuario);
     }
 
@@ -90,7 +95,16 @@ class UsuarioController extends Controller
         $usuario->ds_senha = MD5($request->password);
         $usuario->save();
 
+        $this->notificarComLoginSenha($request->password);
+
         return redirect()->route('login');
+    }
+
+    public function excluir(int $id)
+    {
+        $this->usuario->where('id', $id)->delete();
+
+        return redirect('/usuarios/')->with('mensagem', 'Usuário excluído com sucesso!');
     }
 
     public function logout()
@@ -121,7 +135,7 @@ class UsuarioController extends Controller
         $usuario->ds_login = $request->username;
         $usuario->ds_foto = $request->foto;
         $usuario->ds_loja = $request->loja;
-        $usuario->fl_admin = $request->admin;
+        $usuario->fl_admin = ($request->admin) ? 1 : 0;
 
         return $usuario;
     }
@@ -137,8 +151,8 @@ class UsuarioController extends Controller
 
     private function notificarNovoUsuario(Usuario $usuario)
     {
-        if(env('APP_ENV', 'production') == 'production')
-        {
+        //if(env('APP_ENV', 'production') == 'production')
+        //{
             $nome = explode(' ', $usuario->ds_nome);
             $subject = "Meu primeiro acesso";
             $message = [
@@ -149,6 +163,23 @@ class UsuarioController extends Controller
             Mail::send('templates.new-collaborator-mail', ['mensagem' => $message, 'subject' => $subject, 'usuario' => $nome[0]], function ($m) use ($usuario, $subject) {
                 $m->to($usuario->ds_email, $usuario->ds_nome)->subject($subject . ' - Ferrugine App');
             });
-        }
+       // }
+    }
+
+    private function notificarComLoginSenha(Usuario $usuario, $password)
+    {
+        //if(env('APP_ENV', 'production') == 'production')
+        //{
+            $nome = explode(' ', $usuario->ds_nome);
+            $subject = "Credenciais de acesso";
+            $message = [
+                "Segue abaixo os seus dados de acesso:",
+                "<a href='" . route('login') . "'>" . route('login') . "</a></br><p><strong>Usuário:</strong> ". $usuario->ds_login ."<br/><strong>Senha:</strong> ". $password ."</p>",
+                "Caso você não tenha soliciado este acesso ou recebido este e-mail por engano apenas ignore esta mensagem."
+            ];
+            Mail::send('templates.new-collaborator-mail', ['mensagem' => $message, 'subject' => $subject, 'usuario' => $nome[0]], function ($m) use ($usuario, $subject) {
+                $m->to($usuario->ds_email, $usuario->ds_nome)->subject($subject . ' - Ferrugine App');
+            });
+        //}
     }
 }
