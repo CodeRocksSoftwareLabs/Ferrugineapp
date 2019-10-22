@@ -14,29 +14,20 @@
 Route::get('/login', 'UsuarioController@login')->name('login');
 Route::post('/login', 'UsuarioController@authenticate')->name('login.authenticate');
 Route::get('/logout', 'UsuarioController@logout')->name('logout');
+Route::get('/nova-senha/{token}', 'UsuarioController@novaSenha')->name('usuarios.senha');
+Route::post('/criar-senha', 'UsuarioController@criarSenha')->name('usuarios.criar-senha');
 
-
-Route::get('/teste-de-email', function () {
-    Mail::raw('Estou testando o envio de e-mails, este funcionou!', function($message)
-    {
-        $message->subject('Teste de e-mail');
-        $message->to('victorfrossard00@gmail.com', 'Victor Frossard');
-    });
-});
 
 Route::group(['middleware' => 'autenticacao'], function () {
 
     Route::prefix('/clientes')->group(function () {
-        Route::get('/listar', 'ClienteController@listar')->name('clientes.listar');
-
+        Route::get('/', 'ClienteController@listar')->name('clientes.listar');
         Route::get('/novo', 'ClienteController@novo')->name('clientes.novo');
         Route::post('/criar', 'ClienteController@criar')->name('clientes.criar');
         Route::get('/{id}', 'ClienteController@carregar')->name('clientes.carregar');
         Route::get('/editar/{id}', 'ClienteController@editar')->name('clientes.editar');
         Route::post('/{id}', 'ClienteController@alterar')->name('clientes.alterar');
-
-        Route::get('/cliente', 'ClienteController@create');
-        Route::get('/cliente/{id}', 'ClienteController@delete');
+        Route::get('/excluir/{id}', 'ClienteController@excluir')->name('clientes.excluir');
     });
 
     Route::prefix('/agendamentos')->group(function () {
@@ -59,10 +50,13 @@ Route::group(['middleware' => 'autenticacao'], function () {
     Route::group(['middleware' => 'admin'], function () {
 
         Route::prefix('/usuarios')->group(function () {
-            Route::get('/', 'UsuarioController@usuariosList')->name('usuarios.listar');
-            Route::get('/novo', 'UsuarioController@newUsuario')->name('usuarios.novo');
-            Route::get('/visualizar/{id}', 'UsuarioController@viewUsuario')->name('usuarios.visualizar');
-            Route::post('/criar', 'UsuarioController@createUsuario')->name('usuarios.criar');
+            Route::get('/', 'UsuarioController@listar')->name('usuarios.listar');
+            Route::get('/novo', 'UsuarioController@novo')->name('usuarios.novo');
+            Route::post('/criar', 'UsuarioController@criar')->name('usuarios.criar');
+            Route::get('/{id}', 'UsuarioController@carregar')->name('usuarios.carregar');
+            Route::get('/editar/{id}', 'UsuarioController@editar')->name('usuarios.editar');
+            Route::post('/{id}', 'UsuarioController@alterar')->name('usuarios.alterar');
+            Route::get('/excluir/{id}', 'UsuarioController@excluir')->name('usuarios.excluir');
         });
 
         Route::prefix('/relatorios')->group(function () {

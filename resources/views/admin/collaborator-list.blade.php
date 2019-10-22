@@ -22,7 +22,7 @@
         @foreach($usuarios as $usuario)
 
         <div class="app-card card-collaborator">
-            <a class="card-collaborator__content" href="{{ route('usuarios.visualizar', ['id' => $usuario->id]) }}">
+            <a class="card-collaborator__content" href="{{ route('usuarios.carregar', ['id' => $usuario->id]) }}">
                 <span class="card-collaborator__name">{{ $usuario->ds_nome }}</span>
                 <span class="card-collaborator__cod">{{ str_pad($usuario->id, 4, '0', STR_PAD_LEFT) }}</span>
                 <span class="card-collaborator__schedule-count"><i class="fas fa-calendar-alt mr-1"></i>2 agendamentos</span>
@@ -33,7 +33,7 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="{{ route('usuarios.visualizar', ['id' => $usuario->id]) }}">Ver detalhes</a>
+                    <a class="dropdown-item" href="{{ route('usuarios.carregar', ['id' => $usuario->id]) }}">Ver detalhes</a>
                     <a class="dropdown-item" href="#">Editar</a>
                     <a class="dropdown-item" href="#">Excluir vendedor</a>
                 </div>
