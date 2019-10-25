@@ -58,10 +58,19 @@ class UsuarioController extends Controller
         $usuario = $this->preencherUsuario(new Usuario(), $request);
         $usuario->save();
 
-        $this->criarToken($usuario);
-        $this->notificarNovoUsuario($usuario);
+        if (!empty($request->enviar_senha)) {
+            $this->criarToken($usuario);
+            $this->notificarNovoUsuario($usuario);
+        }
 
         return $this->carregar($usuario->id, false);
+    }
+
+    public function editar(int $id)
+    {
+        $usuario = $this->usuario->find($id);
+
+        return view('admin.new-collaborator', compact('usuario'));
     }
 
     public function alterar(int $id, Request $request)
@@ -139,7 +148,7 @@ class UsuarioController extends Controller
         $usuario->ds_login = $request->username;
         $usuario->ds_foto = $request->foto;
         $usuario->ds_loja = $request->loja;
-        $usuario->fl_admin = ($request->admin) ? 1 : 0;
+        $usuario->fl_admin = ($request->admin) ? 1 : null;
 
         return $usuario;
     }

@@ -17,20 +17,20 @@
 
         <div class="section-full">
             <div class="form-group">
-                <label for="">Nome</label>
+                <label for="">Nome* </label>
                 <input class="form-control" name="nome" type="text" placeholder="" required="required" value="@if(!empty($cliente->ds_nome)){{ $cliente->ds_nome }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Telefone* </label>
+                <input class="form-control telefone" name="telefone" type="text" placeholder="" required="required" value="@if(!empty($cliente->ds_telefone)){{ $cliente->ds_telefone }}@endif">
+            </div>
+            <div class="form-group">
+                <label for="">Telefone complementar</label>
+                <input class="form-control telefone" name="telefone2" type="text" placeholder="" value="@if(!empty($cliente->ds_telefone2)){{ $cliente->ds_telefone2 }}@endif">
             </div>
             <div class="form-group">
                 <label for="">E-mail</label>
                 <input class="form-control" name="email" type="email" placeholder="" value="@if(!empty($cliente->ds_email)){{ $cliente->ds_email }}@endif">
-            </div>
-            <div class="form-group">
-                <label for="">Telefone</label>
-                <input class="form-control telefone" name="telefone" type="text" placeholder="" required="required" value="@if(!empty($cliente->ds_telefone)){{ $cliente->ds_telefone }}@endif">
-            </div>
-            <div class="form-group">
-                <label for="">Telefone 2</label>
-                <input class="form-control telefone" name="telefone2" type="text" placeholder="" value="@if(!empty($cliente->ds_telefone2)){{ $cliente->ds_telefone2 }}@endif">
             </div>
             <div class="form-group">
                 <label for="">CEP</label>
@@ -77,7 +77,7 @@
                 <textarea name="obs" id="" cols="30" rows="5" class="form-control" placeholder="">@if(!empty($cliente->ds_obs)){{ $cliente->ds_obs }}@endif</textarea>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary rounded-pill text-center d-block mt-4">SALVAR</button>
+        <button type="submit" class="btn btn-primary btn-block rounded-pill mt-4">SALVAR</button>
     </form>
 </div>
 

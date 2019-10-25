@@ -227,6 +227,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'MenuHelper' => App\Helpers\MenuHelper::class,
+        'InterfaceHelper' => App\Helpers\InterfaceHelper::class,
 
     ],
 
