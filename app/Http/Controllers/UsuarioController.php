@@ -92,12 +92,16 @@ class UsuarioController extends Controller
     public function criarSenha(Request $request)
     {
         $usuario = $this->usuario->where('token', '=', $request->token)->first();
+
+        if (empty($usuario))
+            return redirect('/nova-senha/' . $request->token)->with('mensagem', 'Token inválido!');
+
         $usuario->ds_senha = MD5($request->password);
         $usuario->save();
 
-        $this->notificarComLoginSenha($request->password);
+        $this->notificarComLoginSenha($usuario, $request->password);
 
-        return redirect()->route('login');
+        return redirect('/nova-senha/' . $request->token)->with('username', $usuario->ds_login);
     }
 
     public function excluir(int $id)
@@ -151,8 +155,8 @@ class UsuarioController extends Controller
 
     private function notificarNovoUsuario(Usuario $usuario)
     {
-        //if(env('APP_ENV', 'production') == 'production')
-        //{
+        if(env('APP_ENV', 'production') == 'production')
+        {
             $nome = explode(' ', $usuario->ds_nome);
             $subject = "Meu primeiro acesso";
             $message = [
@@ -163,13 +167,13 @@ class UsuarioController extends Controller
             Mail::send('templates.new-collaborator-mail', ['mensagem' => $message, 'subject' => $subject, 'usuario' => $nome[0]], function ($m) use ($usuario, $subject) {
                 $m->to($usuario->ds_email, $usuario->ds_nome)->subject($subject . ' - Ferrugine App');
             });
-       // }
+        }
     }
 
-    private function notificarComLoginSenha(Usuario $usuario, $password)
+    private function notificarComLoginSenha(Usuario $usuario, string $password)
     {
-        //if(env('APP_ENV', 'production') == 'production')
-        //{
+        if(env('APP_ENV', 'production') == 'production')
+        {
             $nome = explode(' ', $usuario->ds_nome);
             $subject = "Credenciais de acesso";
             $message = [
@@ -180,6 +184,6 @@ class UsuarioController extends Controller
             Mail::send('templates.new-collaborator-mail', ['mensagem' => $message, 'subject' => $subject, 'usuario' => $nome[0]], function ($m) use ($usuario, $subject) {
                 $m->to($usuario->ds_email, $usuario->ds_nome)->subject($subject . ' - Ferrugine App');
             });
-        //}
+        }
     }
 }
