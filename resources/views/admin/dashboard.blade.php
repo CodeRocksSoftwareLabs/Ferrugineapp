@@ -4,7 +4,7 @@
     <h3 class="menu-bar__user">{{ Session::get('usuario')->ds_nome }}</h3>
     <div class="menu-bar__item"><a href="{{ route('usuarios.listar') }}" class="menu-bar__link"><i class="fas fa-user-tie mr-2"></i>Vendedores</a></div>
     <div class="menu-bar__item"><a href="{{ route('relatorios.listar') }}" class="menu-bar__link"><i class="fas fa-chart-pie mr-2"></i>Relatórios</a></div>
-    <div class="menu-bar__item menu-bar__item--pos-bottom"><a href="config.html" class="menu-bar__link"><i class="fas fa-cog mr-2"></i>Configurações</a></div>
+    <!--div class="menu-bar__item menu-bar__item--pos-bottom"><a href="config.html" class="menu-bar__link"><i class="fas fa-cog mr-2"></i>Configurações</a></div-->
 </div>
 <div class="menu-bar__close"></div>
 
