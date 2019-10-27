@@ -28,7 +28,7 @@ class InterfaceHelper
         $from = strval(date('Y-m-'));
         $from = date($from . '01');
 
-        $to = date('Y-m-d');
+        $to = date("Y-m-t", strtotime($from));
 
         if (empty($usuario)) {
             return Agendamento::whereBetween('created_at', [$from, $to])->whereIn('status_id', [4])->count();
@@ -42,7 +42,7 @@ class InterfaceHelper
         $from = strval(date('Y-m-'));
         $from = date($from . '01');
 
-        $to = date('Y-m-d');
+        $to = date("Y-m-t", strtotime($from));
 
         if (empty($usuario)) {
             return Agendamento::whereBetween('created_at', [$from, $to])->whereIn('status_id', [4, 5])->count();
@@ -56,7 +56,7 @@ class InterfaceHelper
         $from = strval(date('Y-m-'));
         $from = date($from . '01');
 
-        $to = date('Y-m-d');
+        $to = date("Y-m-t", strtotime($from));
 
         if (empty($usuario)) {
             return Cliente::whereBetween('created_at', [$from, $to])->count();
@@ -70,7 +70,7 @@ class InterfaceHelper
         $from = strval(date('Y-m-'));
         $from = date($from . '01');
 
-        $to = date('Y-m-d');
+        $to = date("Y-m-t", strtotime($from));
 
         if (empty($usuario)) {
             return Agendamento::whereBetween('dt_agendamento', [$from, $to])->count();
@@ -135,6 +135,11 @@ class InterfaceHelper
         return $sum;
     }
 
+    public static function formataDiaSigla($data)
+    {
+        return mb_substr(strtoupper(self::traduzirDia(date('l', strtotime($data)))), 0, 3);
+    }
+
     private static function traduzMes($data)
     {
         $meses_ingles = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -142,7 +147,7 @@ class InterfaceHelper
         return str_replace($meses_ingles, $meses_portugues, $data);
     }
 
-    private static function traduzirDia($data)
+    public static function traduzirDia($data)
     {
         $dias_ingles = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $dias_portugues = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
