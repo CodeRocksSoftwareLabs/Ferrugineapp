@@ -3,7 +3,7 @@
 <header class="app-header-pages">
     <div class="app-header-pages__main">
         <h1 class="app-header-title">Agenda</h1>
-        <a href="new-schedule.html" class="btn btn-icon-link"><i class="fas fa-calendar-plus"></i></a>
+        <a href="{{ route('agendamentos.novo') }}" class="btn btn-icon-link"><i class="fas fa-calendar-plus"></i></a>
     </div>
     <div class="app-header-pages__main">
         <div class="app-header-select">

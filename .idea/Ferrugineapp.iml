@@ -99,5 +99,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="mood-in" />
+    <orderEntry type="module" module-name="hazak" />
   </component>
 </module>

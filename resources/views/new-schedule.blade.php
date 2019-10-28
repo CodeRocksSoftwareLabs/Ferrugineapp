@@ -2,64 +2,73 @@
 
 <header class="app-header-pages">
     <div class="app-header-pages__main">
-        <h1 class="app-header-title"><a href="dashboard.html" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>Novo Agendamento</h1>
+        <h1 class="app-header-title"><a href="{{ route('agendamentos.listar') }}" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>Novo Agendamento</h1>
     </div>
 </header>
 
 <div class="app-main app-main--grey">
-    <form action="">
+    <form action="@if(empty($agendamento)){{ route('agendamentos.criar') }}@else{{ route('agendamentos.alterar', $agendamento->id) }}@endif" method="POST">
+        @csrf
+
+        @if(!empty($mensagem))
+            <div class="alert alert-danger" role="alert" style="">{{ $mensagem }}</div>
+        @endif
+
         <h3 class="title-form-label mt-3">Dados do agendamento</h3>
         <div class="section-full">
             <div class="form-group">
                 <label for="">Data</label>
-                <input class="form-control" type="date" placeholder="DD/MM/AAAA">
+                <input class="form-control" type="date" placeholder="DD/MM/AAAA" value="@if(!empty($agendamento->dt_agendamento)){{ $agendamento->dt_agendamento }}@endif">
             </div>
             <div class="form-group">
                 <label for="">Hora</label>
-                <input class="form-control" type="text" placeholder="08:00">
+                <input class="form-control hora" type="text" placeholder="08:00" value="@if(!empty($agendamento->hr_agendamento)){{ $agendamento->hr_agendamento }}@endif">
             </div>
             <div class="form-group">
                 <label for="">Duração</label>
-                <input class="form-control" type="text" placeholder="01:00">
+                <input class="form-control hora" type="text" placeholder="01:00" value="@if(!empty($agendamento->hr_duracao)){{ $agendamento->hr_duracao }}@endif">
             </div>
         </div>
         <h3 class="title-form-label mt-3">Vendedor</h3>
         <div class="section-full">
             <div class="form-group">
-                <label for="">Escolha o vendedor</label>
-                <select name="" id="" class="form-control">
-                    <option value="">Maria José</option>
-                    <option value="" selected>Carlos Ribeiro</option>
-                    <option value="">Victor Frossard</option>
-                    <option value="">João Felix</option>
-                    <option value="">Mario Afonso</option>
+                <label for="usuario">Escolha o vendedor</label>
+                <select name="usuario" id="usuario" class="form-control">
+
+                    @foreach($usuarios as $usuario)
+
+                    <option value="{{ $usuario->id }}" @if($usuario->id == Session::get('usuario')->id){{ "selected='selected'" }}@endif>{{ $usuario->ds_nome }}</option>
+
+                    @endforeach
+
                 </select>
             </div>
         </div>
         <h3 class="title-form-label mt-3">Cliente</h3>
         <div class="section-full">
             <div class="form-group">
-                <label for="">Nome</label>
-                <input class="form-control" type="text" placeholder="Carlos Ribeiro">
-            </div>
-            <div class="form-group">
-                <label for="">E-mail</label>
-                <input class="form-control" type="email" placeholder="ferrugine@gmail.com">
-            </div>
-            <div class="form-group">
-                <label for="">Telefone</label>
-                <input class="form-control" type="tel" placeholder="(27) 9 9999-9999">
+                <label for="cliente_nome">Nome</label>
+                <input class="typeahead form-control" name='cliente_nome' id="cliente_nome" type="text"
+                       placeholder="Digite para buscar" autocomplete="off" spellcheck="false" dir="auto" value="@if(!empty($agendamento->cliente->ds_nome)){{ $agendamento->cliente->ds_nome }}@endif">
             </div>
         </div>
         <h3 class="title-form-label mt-3">Mais detalhes</h3>
         <div class="section-full">
             <div class="form-group">
-                <label for="">Nota</label>
-                <textarea name="" id="" cols="30" rows="5" class="form-control" placeholder="Digite alguma observação aqui"></textarea>
+                <label for="nota">Nota</label>
+                <textarea name="nota" id="nota" cols="30" rows="5" class="form-control">@if(!empty($agendamento->ds_agendamento)){{ $agendamento->ds_agendamento }}@endif</textarea>
             </div>
         </div>
-        <a href="#" class="btn btn-primary rounded-pill text-center d-block mt-4">AGENDAR</a>
+        <button type="submit" class="btn btn-primary btn-block rounded-pill mt-4">AGENDAR</button>
     </form>
 </div>
+
+<script>
+    var clientes_nomes = [
+        @foreach($clientes as $cliente)
+            "{{ $cliente->ds_nome }}",
+        @endforeach
+    ];
+</script>
 
 @include('includes.footer')

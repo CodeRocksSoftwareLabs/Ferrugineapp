@@ -1,7 +1,7 @@
 @include('includes.head')
 
 <header class="app-header">
-    <a href="new-schedule.html" class="btn btn-icon-primary"><i class="fas fa-calendar-plus"></i></a>
+    <a href="{{ route('agendamentos.novo') }}" class="btn btn-icon-primary"><i class="fas fa-calendar-plus"></i></a>
 
     <div class="logged-user text-center">
         <span>Bem-vindo</span>

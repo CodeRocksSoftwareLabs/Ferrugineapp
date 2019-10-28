@@ -28,10 +28,19 @@ Route::group(['middleware' => 'autenticacao'], function () {
         Route::get('/editar/{id}', 'ClienteController@editar')->name('clientes.editar');
         Route::post('/{id}', 'ClienteController@alterar')->name('clientes.alterar');
         Route::get('/excluir/{id}', 'ClienteController@excluir')->name('clientes.excluir');
+
+        Route::get('/api/{q}', 'ClienteController@buscarCliente')->name('clientes.api.buscar');
     });
 
     Route::prefix('/agendamentos')->group(function () {
         Route::get('/listar', 'AgendamentoController@listar')->name('agendamentos.listar');
+        Route::get('/novo', 'AgendamentoController@novo')->name('agendamentos.novo');
+        Route::get('/novo/{id}', 'AgendamentoController@novo')->name('agendamentos.novo.cliente');
+        Route::post('/criar', 'AgendamentoController@criar')->name('agendamentos.criar');
+        Route::get('/{id}', 'AgendamentoController@carregar')->name('agendamentos.carregar');
+        Route::get('/editar/{id}', 'AgendamentoController@editar')->name('agendamentos.editar');
+        Route::post('/{id}', 'AgendamentoController@alterar')->name('agendamentos.alterar');
+        Route::get('/excluir/{id}', 'AgendamentoController@excluir')->name('agendamentos.excluir');
     });
 
 

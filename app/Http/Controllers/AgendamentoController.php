@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Agendamento;
+use App\Cliente;
+use App\Usuario;
 use Session;
 
 class AgendamentoController extends Controller
 {
     protected $agendamento;
+    protected $cliente;
+    protected $usuario;
 
-    function __construct(Agendamento $agendamento)
+    function __construct(Agendamento $agendamento, Cliente $cliente, Usuario $usuario)
     {
         $this->agendamento = $agendamento;
+        $this->cliente = $cliente;
+        $this->usuario = $usuario;
     }
 
     public function listar()
@@ -23,6 +29,20 @@ class AgendamentoController extends Controller
             return $this->defaultAgendamentos();
         }
     }
+
+    public function novo($id = null)
+    {
+        if (!empty($id)) {
+            $cliente = $this->cliente->find($id);
+        }
+
+        $usuarios = $this->usuario->orderBy('ds_nome', 'asc')->get();
+        $clientes = $this->cliente->get();
+
+        return view('new-schedule', compact(['usuarios', 'clientes', 'cliente']));
+    }
+
+
 
     private function adminAgendamentos()
     {
