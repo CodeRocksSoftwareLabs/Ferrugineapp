@@ -10,7 +10,7 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('usuarios.editar', ['id' => $usuario->id]) }}">Editar</a>
-                <a class="dropdown-item" href="{{ route('usuarios.excluir', ['id' => $usuario->id]) }}">Excluir</a>
+                <a class="dropdown-item excluir" href="{{ route('usuarios.excluir', ['id' => $usuario->id]) }}">Excluir</a>
             </div>
         </div>
     </div>

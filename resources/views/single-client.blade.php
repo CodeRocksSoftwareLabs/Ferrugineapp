@@ -10,7 +10,7 @@
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" href="{{ route('clientes.editar', $cliente->id) }}">Editar</a>
-                <a class="dropdown-item" href="#">Excluir</a>
+                <a class="dropdown-item excluir" href="{{ route('clientes.excluir', $cliente->id) }}">Excluir</a>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 <div class="app-main app-main--grey">
     <form action="">
 
-        @if(empty($cliente->agendamentos()->whereIn('status_id', [1,2,4])->first()))
+        @if(empty($cliente->agendamentos()->whereIn('status_id', [1,2,4])->where('dt_agendamento', '>=', date('Y-m-d'))->first()))
         <h3 class="title-form-label mt-4">Agendamentos</h3>
         <div class="section-full">
             <span class="text-center d-block"><small>O cliente não possui nenhum agendamento cadastrado</small></span>

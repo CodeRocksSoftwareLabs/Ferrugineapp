@@ -41,7 +41,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('usuarios.carregar', ['id' => $usuario->id]) }}">Ver detalhes</a>
                     <a class="dropdown-item" href="{{ route('usuarios.editar', ['id' => $usuario->id]) }}">Editar</a>
-                    <a class="dropdown-item" href="{{ route('usuarios.excluir', ['id' => $usuario->id]) }}">Excluir vendedor</a>
+                    <a class="dropdown-item excluir" href="{{ route('usuarios.excluir', ['id' => $usuario->id]) }}">Excluir vendedor</a>
                 </div>
             </div>
         </div>

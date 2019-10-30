@@ -39,7 +39,6 @@ Route::group(['middleware' => 'autenticacao'], function () {
         Route::post('/criar', 'AgendamentoController@criar')->name('agendamentos.criar');
         Route::get('/{id}', 'AgendamentoController@carregar')->name('agendamentos.carregar');
         Route::get('/editar/{id}', 'AgendamentoController@editar')->name('agendamentos.editar');
-        Route::get('/editar/status/{id}', 'AgendamentoController@editarStatus')->name('agendamentos.editar.status');
         Route::post('/{id}', 'AgendamentoController@alterar')->name('agendamentos.alterar');
         Route::get('/excluir/{id}', 'AgendamentoController@excluir')->name('agendamentos.excluir');
     });

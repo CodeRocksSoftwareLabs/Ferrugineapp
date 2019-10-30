@@ -81,7 +81,7 @@ class InterfaceHelper
 
     public static function hasAgendamentoUsuario($cliente)
     {
-        $agendamento = $cliente->agendamentos()->whereIn('status_id', [1,2])->orderBy('id', 'desc')->first();
+        $agendamento = $cliente->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('id', 'desc')->first();
         if (!empty($agendamento)) {
             return '<span class="card-client__salesman"><i class="fas fa-user-tag"></i> '. $agendamento->usuario->ds_nome .'</span>';
         }

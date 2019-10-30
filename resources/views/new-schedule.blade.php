@@ -2,7 +2,7 @@
 
 <header class="app-header-pages">
     <div class="app-header-pages__main">
-        <h1 class="app-header-title"><a href="{{ route('agendamentos.listar') }}" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>Novo Agendamento</h1>
+        <h1 class="app-header-title"><a href="{{ route('agendamentos.listar') }}" class="btn btn-icon-link mr-3"><i class="fas fa-arrow-left"></i></a>@if(empty($agendamento)) Novo Agendamento @else Alterar Agendamento @endif</h1>
     </div>
 </header>
 
@@ -112,7 +112,7 @@
                 <textarea name="nota" id="nota" cols="30" rows="5" class="form-control">@if(!empty($agendamento->ds_agendamento)){{ $agendamento->ds_agendamento }}@endif</textarea>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block rounded-pill mt-4">AGENDAR</button>
+        <button type="submit" class="btn btn-primary btn-block rounded-pill mt-4">@if(empty($agendamento)) AGENDAR @else SALVAR @endif</button>
     </form>
 </div>
 

@@ -18,6 +18,11 @@
     </div>
 </header>
 <div class="app-main app-main--grey">
+
+    @if($mensagem)
+        <div class="alert alert-success" role="alert" style="">Agendamento excluído com sucesso!</div>
+    @endif
+
     <section class="schedule-list">
 
         @foreach($diasAgendados as $dia => $agendamentos)

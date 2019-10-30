@@ -24,12 +24,12 @@ class AgendamentoController extends Controller
         $this->status = $status;
     }
 
-    public function listar()
+    public function listar(string $mensagem = null)
     {
         if (Session::get('usuario')->fl_admin) {
-            return $this->adminAgendamentos();
+            return $this->adminAgendamentos($mensagem);
         } else {
-            return $this->defaultAgendamentos();
+            return $this->defaultAgendamentos($mensagem);
         }
     }
 
@@ -59,7 +59,45 @@ class AgendamentoController extends Controller
 
     public function criar(Request $request)
     {
-        $agendamento = new Agendamento();
+        $agendamento = $this->preencheAgendamento($request);
+        $agendamento->status_id = 1; # Agendado
+        $agendamento->save();
+
+        return $this->carregar($agendamento->id, true);
+    }
+
+    public function alterar(int $id, Request $request)
+    {
+        $agendamento = $this->agendamento->find($id);
+        $agendamento = $this->preencheAgendamento($request, $agendamento);
+        $agendamento->save();
+
+        return $this->carregar($id, true);
+    }
+
+    public function carregar(int $id, bool $mensagem = false)
+    {
+        $agendamento = $this->agendamento->find($id);
+
+        return view('schedule-item', compact(['agendamento', 'mensagem']));
+    }
+
+    public function excluir(int $id)
+    {
+        $agendamento = $this->agendamento->find($id);
+        $agendamento->status_id = 3; #cancelado
+        $agendamento->save();
+        $agendamento->delete();
+
+        return $this->listar(true);
+    }
+
+    private function preencheAgendamento(Request $request, Agendamento $agendamento = null)
+    {
+        if (empty($agendamento)) {
+            $agendamento = new Agendamento();
+        }
+
         $agendamento->cliente_id = $request->cliente_id;
 
         if (!empty(Session::get('usuario')->fl_admin)) {
@@ -72,37 +110,28 @@ class AgendamentoController extends Controller
         $agendamento->hr_agendamento = $request->hora;
         $agendamento->hr_duracao = $request->duracao;
         $agendamento->ds_agendamento = $request->nota;
-        $agendamento->status_id = 1; # Agendado
+        $agendamento->status_id = $request->status;
 
-        $agendamento->save();
-
-        $this->carregar($agendamento->id, true);
-    }
-
-    public function carregar(int $id, bool $mensagem = false)
-    {
-        $agendamento = $this->agendamento->find($id);
-
-        return view('schedule-item', compact(['agendamento', 'mensagem']));
+        return $agendamento;
     }
 
 
-    private function adminAgendamentos()
+    private function adminAgendamentos(string $mensagem = null)
     {
         $agendamentos = $this->agendamento->where('dt_agendamento', '>', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
         $diasAgendados = $this->diasAgendados($agendamentos);
         $options = $this->mesesAgendados();
 
-        return view('schedule-list', compact('diasAgendados', 'options'));
+        return view('schedule-list', compact('diasAgendados', 'options', 'mensagem'));
     }
 
-    private function defaultAgendamentos()
+    private function defaultAgendamentos(string $mensagem = null)
     {
         $agendamentos = Session::get('usuario')->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
         $diasAgendados = $this->diasAgendados($agendamentos);
         $options = $this->mesesAgendados();
 
-        return view('schedule-list', compact('diasAgendados', 'options'));
+        return view('schedule-list', compact('diasAgendados', 'options', 'mensagem'));
     }
 
     private function diasAgendados($agendamentos)

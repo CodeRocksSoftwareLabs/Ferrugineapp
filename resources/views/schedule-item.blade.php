@@ -12,9 +12,8 @@
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                <a class="dropdown-item" href="{{ route('agendamentos.editar.status', $agendamento->id) }}">Alterar Status</a>
-                <a class="dropdown-item" href="{{ route('agendamentos.editar', $agendamento->id) }}">Editar</a>
-                <a class="dropdown-item" href="{{ route('agendamentos.excluir', $agendamento->id) }}">Excluir</a>
+                <a class="dropdown-item" href="{{ route('agendamentos.editar', $agendamento->id) }}">Editar / Alterar status</a>
+                <a class="dropdown-item excluir" href="{{ route('agendamentos.excluir', $agendamento->id) }}">Excluir</a>
             </div>
         </div>
 
@@ -42,6 +41,15 @@
             <span class="value-input">{{ $agendamento->ds_agendamento }}</span>
         </div>
     </div>
+
+    <h3 class="title-form-label mt-4">Status do agendamento</h3>
+    <div class="section-full">
+        <div class="form-group">
+            <label for="">Status</label>
+            <span class="value-input">{{ $agendamento->status->ds_status }}</span>
+        </div>
+    </div>
+
     <h3 class="title-form-label mt-4">Vendedor</h3>
     <div class="section-full">
         <div class="form-group">
@@ -53,6 +61,7 @@
             <span class="value-input">{{ str_pad($agendamento->usuario_id, 4, '0', STR_PAD_LEFT) }}</span>
         </div>
     </div>
+
     <h3 class="title-form-label mt-4">Cliente</h3>
     <div class="section-full">
         <div class="form-group">
