@@ -18,11 +18,14 @@
 
 <div class="app-main app-main--grey">
     <form action="">
+
+        @if(empty($cliente->agendamentos()->whereIn('status_id', [1,2,4])->first()))
         <h3 class="title-form-label mt-4">Agendamentos</h3>
         <div class="section-full">
             <span class="text-center d-block"><small>O cliente não possui nenhum agendamento cadastrado</small></span>
-            <a href="new-schedule.html" class="btn btn-primary rounded-pill text-center d-block mt-4">NOVO AGENDAMENTO</a>
+            <a href="{{ route('agendamentos.novo.cliente', $cliente->id) }}" class="btn btn-primary rounded-pill text-center d-block mt-4">NOVO AGENDAMENTO</a>
         </div>
+        @endif
 
         <h3 class="title-form-label mt-4">Dados</h3>
 

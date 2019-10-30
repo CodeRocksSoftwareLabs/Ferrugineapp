@@ -7,7 +7,7 @@
 </header>
 <div class="app-main">
     <div class="notification-list">
-        <div class="notification-list__item notification-list__item--new">
+        <!--div class="notification-list__item notification-list__item--new">
             <p class="notification-list__item-text">O cliente <b>Carlos Ribeiro</b> cancelou o agendamento</p>
             <span class="notification-list__item-date">15 de Ago às 17:00</span>
         </div>
@@ -26,6 +26,9 @@
         <div class="notification-list__item">
             <p class="notification-list__item-text">O cliente <b>Carlos Ribeiro</b> cancelou o agendamento</p>
             <span class="notification-list__item-date">15 de Ago às 17:00</span>
+        </div-->
+        <div class="notification-list__item">
+            <p class="notification-list__item-text">Não existem notificações.</p>
         </div>
     </div>
 </div>

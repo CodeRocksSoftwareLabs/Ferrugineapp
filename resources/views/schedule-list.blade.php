@@ -31,7 +31,7 @@
 
                 @foreach($agendamentos as $agendamento)
 
-                <a href="schedule-item.html" class="app-card card-schedule">
+                <a href="{{ route('agendamentos.carregar', $agendamento->id) }}" class="app-card card-schedule">
                     <span class="card-schedule__hour">{{ $agendamento->hr_agendamento }} - {{ InterfaceHelper::sumTime($agendamento->hr_agendamento, $agendamento->hr_duracao) }}</span>
                     <span class="card-schedule__name">
                         <span>Cliente</span>

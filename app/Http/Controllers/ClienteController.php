@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use App\Cliente;
 use App\Estado;
@@ -80,6 +81,16 @@ class ClienteController extends Controller
         $this->cliente->where('id', $id)->delete();
 
         return $this->listar(true);
+    }
+
+    public function buscarCliente(string $q)
+    {
+        $cliente = $this->cliente->where('ds_nome', '=', $q)->first();
+
+        if(!$cliente)
+            return response()->json(['message' => 'Cliente não encontrado.'], 404);
+
+        return response()->json($cliente, 200);
     }
 
     private function preencherCliente(Cliente $cliente, Request $request)

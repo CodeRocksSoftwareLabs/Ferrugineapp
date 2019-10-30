@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Agendamento;
 use App\Cliente;
 use App\Usuario;
+use App\Status;
 use Session;
 
 class AgendamentoController extends Controller
@@ -13,12 +14,14 @@ class AgendamentoController extends Controller
     protected $agendamento;
     protected $cliente;
     protected $usuario;
+    protected $status;
 
-    function __construct(Agendamento $agendamento, Cliente $cliente, Usuario $usuario)
+    function __construct(Agendamento $agendamento, Cliente $cliente, Usuario $usuario, Status $status)
     {
         $this->agendamento = $agendamento;
         $this->cliente = $cliente;
         $this->usuario = $usuario;
+        $this->status = $status;
     }
 
     public function listar()
@@ -36,12 +39,52 @@ class AgendamentoController extends Controller
             $cliente = $this->cliente->find($id);
         }
 
-        $usuarios = $this->usuario->orderBy('ds_nome', 'asc')->get();
-        $clientes = $this->cliente->get();
+        $status = $this->status->get();
+        $usuarios = $this->getUsuariosForSelect();
+        $clientes = $this->getClientesDesempedidos();
 
-        return view('new-schedule', compact(['usuarios', 'clientes', 'cliente']));
+        return view('new-schedule', compact(['usuarios', 'clientes', 'cliente', 'status']));
     }
 
+    public function editar(int $id)
+    {
+        $agendamento = $this->agendamento->find($id);
+        $cliente = $agendamento->cliente;
+        $clientes = $this->getClientesDesempedidos($cliente);
+        $status = $this->status->get();
+        $usuarios = $this->getUsuariosForSelect();
+
+        return view('new-schedule', compact(['usuarios', 'agendamento', 'clientes', 'cliente', 'status']));
+    }
+
+    public function criar(Request $request)
+    {
+        $agendamento = new Agendamento();
+        $agendamento->cliente_id = $request->cliente_id;
+
+        if (!empty(Session::get('usuario')->fl_admin)) {
+            $agendamento->usuario_id = $request->usuario;
+        } else {
+            $agendamento->usuario_id = Session::get('usuario')->id;
+        }
+
+        $agendamento->dt_agendamento = $request->data;
+        $agendamento->hr_agendamento = $request->hora;
+        $agendamento->hr_duracao = $request->duracao;
+        $agendamento->ds_agendamento = $request->nota;
+        $agendamento->status_id = 1; # Agendado
+
+        $agendamento->save();
+
+        $this->carregar($agendamento->id, true);
+    }
+
+    public function carregar(int $id, bool $mensagem = false)
+    {
+        $agendamento = $this->agendamento->find($id);
+
+        return view('schedule-item', compact(['agendamento', 'mensagem']));
+    }
 
 
     private function adminAgendamentos()
@@ -55,7 +98,7 @@ class AgendamentoController extends Controller
 
     private function defaultAgendamentos()
     {
-        $agendamentos = Session::get('usuario')->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
+        $agendamentos = Session::get('usuario')->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
         $diasAgendados = $this->diasAgendados($agendamentos);
         $options = $this->mesesAgendados();
 
@@ -66,9 +109,9 @@ class AgendamentoController extends Controller
     {
         $diasAgendados = [];
         foreach ($agendamentos as $agendamento) {
-            if (!array_key_exists($agendamento->dt_agendamento, $diasAgendados)) {
+            //if (!array_key_exists($agendamento->dt_agendamento, $diasAgendados)) {
                 $diasAgendados[$agendamento->dt_agendamento][] = $agendamento;
-            }
+            //}
         }
         return $diasAgendados;
     }
@@ -100,5 +143,34 @@ class AgendamentoController extends Controller
         }
 
         return $options;
+    }
+
+    private function getClientesDesempedidos(Cliente $clienteAtual = null)
+    {
+        $clientes = $this->cliente->get();
+        $arrClientes = [];
+
+        foreach ($clientes as $cliente) {
+            $agendamentoDoCliente = $cliente->agendamentos()->whereIn('status_id', [1,2,4])->first();
+
+            if (empty($agendamentoDoCliente)) {
+                $arrClientes[] = $cliente;
+            }
+        }
+
+        if (!empty($clienteAtual)) {
+            $arrClientes[] = $clienteAtual;
+        }
+
+        return $arrClientes;
+    }
+
+    private function getUsuariosForSelect()
+    {
+        if (!empty(Session::get('usuario')->fl_admin)) {
+            return $this->usuario->orderBy('ds_nome', 'asc')->get();
+        }
+        return $this->usuario->where('id', Session::get('usuario')->id)->orderBy('ds_nome', 'asc')->get();
+
     }
 }
