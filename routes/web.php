@@ -11,6 +11,13 @@
 |
 */
 
+Route::get('/', function(){
+   if (!empty(Session::get('usuario')->id)) {
+       return redirect()->route('dashboard');
+   } else {
+       return redirect()->route('login');
+   }
+});
 Route::get('/login', 'UsuarioController@login')->name('login');
 Route::post('/login', 'UsuarioController@authenticate')->name('login.authenticate');
 Route::get('/logout', 'UsuarioController@logout')->name('logout');
