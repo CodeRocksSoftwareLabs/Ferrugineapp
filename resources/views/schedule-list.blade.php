@@ -56,6 +56,14 @@
                         </span>
 
                     @endif
+
+                    @if(!empty(Session::get('usuario')->fl_admin))
+                        <div class="card-client" style="padding: 10px 0 0 0; margin-bottom: 0px;">
+                            <div class="card-client__content">
+                                {!! InterfaceHelper::hasAgendamentoUsuario($agendamento->cliente) !!}
+                            </div>
+                        </div>
+                    @endif
                 </a>
 
                 @endforeach

@@ -79,6 +79,11 @@ class InterfaceHelper
         }
     }
 
+    public static function getProximosAgendamentos(Usuario $usuario)
+    {
+        return $usuario->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
+    }
+
     public static function hasAgendamentoUsuario($cliente)
     {
         $agendamento = $cliente->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('id', 'desc')->first();
@@ -138,6 +143,13 @@ class InterfaceHelper
     public static function formataDiaSigla($data)
     {
         return mb_substr(strtoupper(self::traduzirDia(date('l', strtotime($data)))), 0, 3);
+    }
+
+    public static function getPercent($percent100, $percentX)
+    {
+        $aux = $percentX*100;
+        $percent = $aux/$percent100;
+        return number_format($percent, 0, ',', '.');
     }
 
     private static function traduzMes($data)

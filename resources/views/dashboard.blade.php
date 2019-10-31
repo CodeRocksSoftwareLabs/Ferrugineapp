@@ -19,7 +19,7 @@
                 @foreach($agendamentos as $agendamento)
 
                 <div class="module-swiper__item">
-                    <a href="schedule-item.html" class="app-card card-schedule">
+                    <a href="{{ route('agendamentos.carregar', $agendamento->id) }}" class="app-card card-schedule">
                         <span class="card-schedule__date">{{ InterfaceHelper::formataData($agendamento->dt_agendamento) }}</span>
                         <span class="card-schedule__day">{{ InterfaceHelper::formataDia($agendamento->dt_agendamento) }}</span>
                         <span class="card-schedule__hour">{{ $agendamento->hr_agendamento }} - {{ InterfaceHelper::sumTime($agendamento->hr_agendamento, $agendamento->hr_duracao) }}</span>
@@ -69,7 +69,7 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="{{ route('clientes.editar', ['id' => $cliente->id]) }}">Editar</a>
-                    <a class="dropdown-item" href="#">Alterar vendedor</a>
+                    <!--a class="dropdown-item" href="#">Alterar vendedor</a-->
                 </div>
             </div>
         </div>

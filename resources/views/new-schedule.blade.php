@@ -77,15 +77,15 @@
         <div class="section-full">
             <div class="form-group">
                 <label for="">Data</label>
-                <input class="form-control" name="data" type="date" placeholder="DD/MM/AAAA" value="@if(!empty($agendamento->dt_agendamento)){{ $agendamento->dt_agendamento }}@endif">
+                <input class="form-control" name="data" type="date" placeholder="DD/MM/AAAA" value="@if(!empty($agendamento->dt_agendamento)){{ $agendamento->dt_agendamento }}@endif" required="required">
             </div>
             <div class="form-group">
                 <label for="">Hora</label>
-                <input class="form-control hora" name="hora" type="text" placeholder="08:00" value="@if(!empty($agendamento->hr_agendamento)){{ $agendamento->hr_agendamento }}@endif">
+                <input class="form-control hora" name="hora" type="text" placeholder="08:00" value="@if(!empty($agendamento->hr_agendamento)){{ $agendamento->hr_agendamento }}@endif" required="required">
             </div>
             <div class="form-group">
                 <label for="">Duração</label>
-                <input class="form-control hora" name="duracao" type="text" placeholder="01:00" value="@if(!empty($agendamento->hr_duracao)){{ $agendamento->hr_duracao }}@endif">
+                <input class="form-control hora" name="duracao" type="text" placeholder="01:00" value="@if(!empty($agendamento->hr_duracao)){{ $agendamento->hr_duracao }}@endif" required="required">
             </div>
         </div>
 

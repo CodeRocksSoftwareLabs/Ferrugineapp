@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use App\Services\AgendamentoService;
 
 class DisableOldAgendamentos extends Command
 {
@@ -37,6 +38,7 @@ class DisableOldAgendamentos extends Command
      */
     public function handle()
     {
-        //
+        $agendamentoService = new AgendamentoService();
+        $agendamentoService->cancelarAgendamentosPassados();
     }
 }

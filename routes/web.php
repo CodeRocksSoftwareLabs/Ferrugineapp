@@ -69,7 +69,8 @@ Route::group(['middleware' => 'autenticacao'], function () {
         });
 
         Route::prefix('/relatorios')->group(function () {
-            Route::get('/', 'UsuarioController@usuariosList')->name('relatorios.listar');
+            Route::get('/', 'RelatorioController@relatorios')->name('relatorios');
+            Route::post('/gerar', 'RelatorioController@gerarRelatorio')->name('relatorios.gerar');
         });
     });
 

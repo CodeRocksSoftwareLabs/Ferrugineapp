@@ -118,7 +118,7 @@ class AgendamentoController extends Controller
 
     private function adminAgendamentos(string $mensagem = null)
     {
-        $agendamentos = $this->agendamento->where('dt_agendamento', '>', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
+        $agendamentos = $this->agendamento->where('dt_agendamento', '>=', date('Y-m-d'))->whereIn('status_id', [1,2])->orderBy('dt_agendamento', 'asc')->get();
         $diasAgendados = $this->diasAgendados($agendamentos);
         $options = $this->mesesAgendados();
 

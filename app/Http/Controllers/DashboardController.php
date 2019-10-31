@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
     public function defaultDashboard()
     {
-        $agendamentos = Session::get('usuario')->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
+        $agendamentos = Session::get('usuario')->agendamentos()->whereIn('status_id', [1,2])->where('dt_agendamento', '>=', date('Y-m-d'))->orderBy('dt_agendamento', 'asc')->get();
         $clientes = $this->cliente->orderBy('created_at', 'asc')->take(10)->get();
         return view('dashboard', compact('agendamentos', 'clientes'));
     }

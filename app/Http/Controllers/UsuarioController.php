@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Usuario;
 use Session;
 use Mail;
+use Log;
 
 class UsuarioController extends Controller
 {
@@ -33,7 +34,7 @@ class UsuarioController extends Controller
             return view('index', compact('mensagem'));
         }
 
-        return $this->authenticateUser($usuario);
+        return $this->authenticateUser($usuario, $request);
     }
 
     public function perfil()
@@ -120,17 +121,21 @@ class UsuarioController extends Controller
         return redirect('/usuarios/')->with('mensagem', 'Usuário excluído com sucesso!');
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
+        Log::registrar($request->getRequestUri(), $request->getMethod(), $request->all());
+
         Session::flush();
         return redirect()->route('login');
     }
 
-    private function authenticateUser(Usuario $usuario)
+    private function authenticateUser(Usuario $usuario, Request $request)
     {
         if(!empty($usuario))
         {
             Session::put('usuario', $usuario);
+
+            Log::registrar($request->getRequestUri(), $request->getMethod(), ['username' => $usuario->ds_login]);
 
             return redirect()->route('dashboard');
         }
