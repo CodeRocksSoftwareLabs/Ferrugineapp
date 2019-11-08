@@ -17,11 +17,11 @@ class LoginMiddleware
      */
     public function handle($request, Closure $next)
     {
-        Log::registrar($request->getRequestUri(), $request->getMethod(), $request->all());
-
         # Pendente a autorização por grupo de acesso
         if(!Session::has('usuario'))
             return redirect()->route('login');
+        
+        Log::registrar($request->getRequestUri(), $request->getMethod(), $request->all());
 
         return $next($request);
     }
