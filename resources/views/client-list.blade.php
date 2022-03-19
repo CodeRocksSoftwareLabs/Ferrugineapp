@@ -32,7 +32,13 @@
                 @foreach($clientes as $cliente)
 
                 <a href="{{ route('clientes.carregar', $cliente->id) }}" class="client-list__item" data-nome="{{ strtolower($cliente->ds_nome) }}" data-telefone="{{ str_replace(['(', ')', '-', ' '], ['','','',''], $cliente->ds_telefone) }}">
-                    <span class="client-list__name">{{ $cliente->ds_nome }}</span>
+                    <span class="client-list__name">
+                        {{ $cliente->ds_nome }}
+
+                        @if (InterfaceHelper::isNewClient($cliente))
+                        <span class="badge bg-success">Novo</span>
+                        @endif
+                    </span>
                     <span class="client-list__phone">{{ $cliente->ds_telefone }}</span>
                 </a>
 

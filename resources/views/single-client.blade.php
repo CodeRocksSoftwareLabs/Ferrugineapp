@@ -126,6 +126,15 @@
                 </div>
 
             @endif
+
+            @if(!empty($cliente->created_at))
+
+                <div class="form-group">
+                    <label for="">Data de cadastro</label>
+                    <span class="value-input">{{ $cliente->created_at }}</span>
+                </div>
+
+            @endif
         </div>
 
     </form>

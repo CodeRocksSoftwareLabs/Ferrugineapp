@@ -6,6 +6,7 @@ use Request;
 use App\Cliente;
 use App\Usuario;
 use App\Agendamento;
+use Datetime;
 
 class InterfaceHelper
 {
@@ -164,5 +165,12 @@ class InterfaceHelper
         $dias_ingles = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
         $dias_portugues = ['Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'];
         return str_replace($dias_ingles, $dias_portugues, $data);
+    }
+
+    public static function isNewClient($cliente) {
+        $createdAt = DateTime::createFromFormat('d/m/Y H:i', $cliente->created_at);
+        $today = new DateTime();
+        $dateMinusSeven = $today->sub(new \DateInterval('P7D'));
+        return ($createdAt > $dateMinusSeven);
     }
 }

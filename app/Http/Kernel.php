@@ -66,6 +66,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
         'https' => \App\Http\Middleware\Https::class,
         'ajax' => \App\Http\Middleware\AjaxMiddleware::class,
+        'auth.api' => \App\Http\Middleware\ApiAuthMiddleware::class,
     ];
 
     /**

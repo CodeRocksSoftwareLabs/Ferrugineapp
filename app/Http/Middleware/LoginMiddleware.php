@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Session;
-use Log;
+use LogService;
 
 class LoginMiddleware
 {
@@ -20,8 +20,8 @@ class LoginMiddleware
         # Pendente a autorização por grupo de acesso
         if(!Session::has('usuario'))
             return redirect()->route('login');
-        
-        Log::registrar($request->getRequestUri(), $request->getMethod(), $request->all());
+
+        LogService::registrar($request->getRequestUri(), $request->getMethod(), $request->all());
 
         return $next($request);
     }

@@ -228,7 +228,7 @@ return [
 
         'MenuHelper' => App\Helpers\MenuHelper::class,
         'InterfaceHelper' => App\Helpers\InterfaceHelper::class,
-        'Log' => App\Services\LogService::class,
+        'LogService' => App\Services\LogService::class,
 
     ],
 
